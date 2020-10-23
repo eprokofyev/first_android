@@ -16,6 +16,8 @@ class ItemFragment : Fragment() {
 
     private var columnCount = 0
 
+    private var size = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +32,19 @@ class ItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        size = savedInstanceState?.getInt(NUMBERS) ?: (arguments?.getInt(NUMBERS, 0) ?: 0)
+
+        DataSource.create(size)
+
         columnCount = resources.getInteger(R.integer.column)
 
         return inflater.inflate(R.layout.fragment_item_list, container, false)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(NUMBERS, size)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +54,7 @@ class ItemFragment : Fragment() {
         val b = view.findViewById<View>(R.id.btn_do_it)
         b.setOnClickListener {
             DataSource.add()
+            ++size
             recycler.adapter?.notifyItemInserted(DataSource.size())
         }
 
@@ -53,6 +66,20 @@ class ItemFragment : Fragment() {
             adapter = MyItemRecyclerViewAdapter(DataSource.get(), listener)
         }
 
+    }
+
+
+
+    companion object {
+        private const val NUMBERS = "numbers"
+
+        fun newInstance(size: Int) = ItemFragment().apply {
+            if (arguments == null) {
+                arguments = Bundle(1).apply {
+                    putInt(NUMBERS, size)
+                }
+            }
+        }
     }
 
 }
