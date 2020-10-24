@@ -18,7 +18,6 @@ class ItemFragment : Fragment() {
 
     private var size = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (context is SwitcherInterface) {

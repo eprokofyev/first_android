@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 
 class NumberFragment : Fragment() {
 
-    private var listener: SwitcherInterface? = null
     private var number: Int = 0
     private var color: Int = 0
 
@@ -43,11 +42,6 @@ class NumberFragment : Fragment() {
         val textView = view.findViewById<TextView>(R.id.number)
         textView.text = number.toString()
         textView.setTextColor(color)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
